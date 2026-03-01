@@ -1,4 +1,5 @@
 from flask import Flask
+import os
 from urllib.parse import unquote, urlparse
 
 import pymysql
@@ -33,7 +34,7 @@ def ensure_database_exists(database_uri):
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret1234'
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@localhost:3306/db_tareas"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@localhost:3308/db_tareas"
 # initialize the app with the extension
 ensure_database_exists(app.config["SQLALCHEMY_DATABASE_URI"])
 db.init_app(app)
@@ -43,5 +44,5 @@ with app.app_context():
 from routes import *
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=int(os.getenv("PORT", "5001")))
     
